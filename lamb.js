@@ -2,6 +2,8 @@ var L = {};
 var slice = Array.prototype.slice;
 
 
+/***** Types *****/
+
 L.isArray = Array.isArray || function (obj) {
     return toString.call(obj) === '[object Array]';
 };
@@ -12,50 +14,8 @@ L.isFunction = function (obj) {
   return toString.call(obj) == '[object Function]';
 };
 
-L.shallowClone = function (obj) {
-    if (L.isArray(obj)) {
-        return slice.call(obj);
-    }
-    var newobj = {};
-    for (var k in obj) {
-        newobj[k] = obj[k];
-    }
-    return newobj;
-};
 
-L.deepClone = function (obj) {
-    if (L.isArray(obj)) {
-        return map(L.deepClone, obj);
-    }
-    if (L.isObject(obj)) {
-        var newobj = {};
-        for (var k in obj) {
-            newobj[k] = L.deepClone(obj[k]);
-        }
-        return newobj;
-    }
-    return obj;
-};
-
-L.jsonClone = function (obj) {
-    return JSON.parse( JSON.stringify(obj) );
-};
-
-L.take = function (i, arr) {
-    return slice.call(arr, 0, i);
-};
-
-L.drop = function (i, arr) {
-    return slice.call(arr, i);
-};
-
-L.cons = function (el, arr) {
-    return [el].concat(arr);
-};
-
-L.apply = function (fn, args) {
-    return fn.apply(this, args);
-};
+/***** Functions *****/
 
 L.curry = function (fn /* args... */) {
     var args = slice.call(arguments);
@@ -86,21 +46,40 @@ L.compose = function (/* f1, f2, ...*/) {
     };
 };
 
-L.head = function (arr) {
-    return arr[0];
+L.apply = function (fn, args) {
+    return fn.apply(this, args);
 };
 
-L.tail = function (arr) {
-    return arr.slice(1);
+
+/***** Objects *****/
+
+L.shallowClone = function (obj) {
+    if (L.isArray(obj)) {
+        return slice.call(obj);
+    }
+    var newobj = {};
+    for (var k in obj) {
+        newobj[k] = obj[k];
+    }
+    return newobj;
 };
 
-//L.init = L.compose(L.take , '-1' , L.length);
-L.init = function (arr) {
-    return arr.slice(0, arr.length - 1);
+L.deepClone = function (obj) {
+    if (L.isArray(obj)) {
+        return map(L.deepClone, obj);
+    }
+    if (L.isObject(obj)) {
+        var newobj = {};
+        for (var k in obj) {
+            newobj[k] = L.deepClone(obj[k]);
+        }
+        return newobj;
+    }
+    return obj;
 };
 
-L.last = function (arr) {
-    return arr[arr.length - 1];
+L.jsonClone = function (obj) {
+    return JSON.parse( JSON.stringify(obj) );
 };
 
 L.set = function (obj, path, val) {
@@ -144,17 +123,18 @@ L.get = function (obj, path, fullpath) {
     }
 };
 
-L.foldl = function (iterator, memo, arr) {
-    // TODO: make this cross-browser
-    return arr.reduce(iterator, memo);
-};
-L.filter = function (fn, arr) {
-    // TODO: make this cross-browser
-    return arr.filter(fn);
-};
-L.each = function (fn, arr) {
-    // TODO: make this cross-browser
-    return arr.forEach(fn);
+L.freeze = Object.freeze;
+
+L.deepFreeze = function (obj) {
+    if (typeof obj === 'object') {
+        L.freeze(obj);
+        for (var k in obj) {
+            if (obj.hasOwnProperty(k) && typeof obj === "object") {
+                L.deepFreeze(obj[k]);
+            }
+        }
+    }
+    return obj;
 };
 
 // TODO: make this cross-browser
@@ -169,19 +149,59 @@ L.values = function (obj) {
 };
 
 
-L.freeze = Object.freeze;
-L.deepFreeze = function (obj) {
-    if (typeof obj === 'object') {
-        L.freeze(obj);
-        for (var k in obj) {
-            if (obj.hasOwnProperty(k) && typeof obj === "object") {
-                L.deepFreeze(obj[k]);
-            }
-        }
-    }
-    return obj;
+/***** Lists *****/
+
+L.cons = function (el, arr) {
+    return [el].concat(arr);
 };
 
+L.concat = function (/* lists ... */) {
+    var args = slice.call(arguments);
+    return Array.prototype.concat.apply(L.head(args), L.tail(args));
+};
+
+L.take = function (i, arr) {
+    return slice.call(arr, 0, i);
+};
+
+L.drop = function (i, arr) {
+    return slice.call(arr, i);
+};
+
+L.head = function (arr) {
+    return arr[0];
+};
+
+L.tail = function (arr) {
+    return arr.slice(1);
+};
+
+//L.init = L.compose(L.take , '-1' , L.length);
+L.init = function (arr) {
+    return arr.slice(0, arr.length - 1);
+};
+
+L.last = function (arr) {
+    return arr[arr.length - 1];
+};
+
+L.foldl = function (iterator, memo, arr) {
+    // TODO: make this cross-browser
+    return arr.reduce(iterator, memo);
+};
+L.filter = function (fn, arr) {
+    // TODO: make this cross-browser
+    return arr.filter(fn);
+};
+/*
+L.each = function (fn, arr) {
+    // TODO: make this cross-browser
+    return arr.forEach(fn);
+};
+*/
+
+
+/***** Utilities *****/
 
 // hopefully people can just use 'const' instead of 'var' eventually.
 // also, this won't work in most older browsers anyway!
@@ -227,5 +247,6 @@ L.constants = function (/* var names ..., fn */) {
 L.install = L.foldl(function (src, prop) {
     return src + 'var ' + prop + '=L.' + prop + '; ';
 }, '', L.keys(L));
+
 
 module.exports = L;

@@ -309,3 +309,9 @@ exports['compose'] = function (test) {
     test.equal(fn('zero'), 'three:two:one:zero');
     test.done();
 };
+
+exports['concat'] = function (test) {
+    test.same(L.concat([1], [2,3]), [1,2,3]);
+    test.same(L.concat([1,2], [3], [4,5]), [1,2,3,4,5]);
+    test.done();
+};
