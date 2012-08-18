@@ -49,11 +49,30 @@ L.drop = function (i, arr) {
     return slice.call(arr, i);
 };
 
+L.cons = function (el, arr) {
+    return [el].concat(arr);
+};
+
+L.apply = function (fn, args) {
+    return fn.apply(this, args);
+};
+
 L.curry = function (fn /* args... */) {
-    var args = slice.call(arguments, 1);
-    return function (/* more args... */) {
-        return fn.apply(this, args.concat(slice.call(arguments)));
-    };
+    var args = slice.call(arguments);
+    return L.apply(L.ncurry, L.cons(fn.length, args));
+};
+L.ncurry = function (n, fn /* args... */) {
+    var largs = slice.call(arguments, 2);
+    if (largs.length >= n) {
+        return L.apply(fn, L.take(n, largs));
+    }
+    return function () {
+        var args = largs.concat(slice.call(arguments));
+        if (args.length < n) {
+            return L.apply(L.ncurry, [n, fn].concat(args));
+        }
+        return L.apply(fn, L.take(n, args));
+    }
 };
 
 L.head = function (arr) {

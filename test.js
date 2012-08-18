@@ -249,3 +249,48 @@ exports['jsonClone'] = function (test) {
     test.same(b, {x: 2, y: {z: 'bar'}});
     test.done();
 };
+
+exports['cons'] = function (test) {
+    test.same(L.cons(1, [2,3,4]), [1,2,3,4]);
+    test.same(L.cons(1, []), [1]);
+    test.done();
+};
+
+exports['apply'] = function (test) {
+    var fn = function (a, b, c, d) {
+        return a + b + c + d;
+    };
+    test.equal(L.apply(fn, [1,2,3,4]), 10);
+    test.equal(L.apply(fn, [1,1,1,1]), 4);
+    test.done();
+};
+
+exports['curry'] = function (test) {
+    var fn = L.curry(function (a, b, c, d) {
+        return a + b + c + d;
+    });
+    test.equal(fn(1,2,3,4), fn(1,2)(3,4));
+    test.equal(fn(1,2,3,4), fn(1)(2)(3)(4));
+    var fn2 = function (a, b, c, d) {
+        return a + b + c + d;
+    };
+    test.equal(L.curry(fn2)(1,2,3,4), L.curry(fn2,1,2,3,4));
+    test.equal(L.curry(fn2)(1,2,3,4), L.curry(fn2,1,2)(3,4));
+    test.done();
+};
+
+exports['ncurry'] = function (test) {
+    var fn = L.ncurry(3, function (a, b, c, d) {
+        return a + b + c + (d || 0);
+    });
+    test.equal(fn(1,2,3,4), 6);
+    test.equal(fn(1,2,3,4), fn(1,2)(3));
+    test.equal(fn(1,2,3,4), fn(1)(2)(3));
+    var fn2 = function () {
+        var args = Array.prototype.slice(arguments);
+        return L.foldl(function (a, b) { return a + b; }, 0, args);
+    };
+    test.equal(L.ncurry(3,fn2)(1,2,3,4), L.ncurry(3,fn2,1,2,3,4));
+    test.equal(L.ncurry(3,fn2)(1,2,3,4), L.ncurry(3,fn2,1,2)(3,4));
+    test.done();
+};
