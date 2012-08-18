@@ -75,6 +75,17 @@ L.ncurry = function (n, fn /* args... */) {
     }
 };
 
+L.compose = function (/* f1, f2, ...*/) {
+    var fns = slice.call(arguments);
+    return function () {
+        var args = arguments;
+        for (var i = fns.length-1; i >= 0; --i) {
+            args = [L.apply(fns[i], args)];
+        }
+        return args[0];
+    };
+};
+
 L.head = function (arr) {
     return arr[0];
 };

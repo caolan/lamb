@@ -294,3 +294,18 @@ exports['ncurry'] = function (test) {
     test.equal(L.ncurry(3,fn2)(1,2,3,4), L.ncurry(3,fn2,1,2)(3,4));
     test.done();
 };
+
+exports['compose'] = function (test) {
+    var fn1 = function (str) {
+        return 'one:' + str;
+    };
+    var fn2 = function (str) {
+        return 'two:' + str;
+    };
+    var fn3 = function (str) {
+        return 'three:' + str;
+    };
+    var fn = L.compose(fn3, fn2, fn1);
+    test.equal(fn('zero'), 'three:two:one:zero');
+    test.done();
+};
