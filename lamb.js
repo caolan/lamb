@@ -11,7 +11,10 @@ L.isObject = function (obj) {
     return obj === Object(obj);
 };
 L.isFunction = function (obj) {
-  return toString.call(obj) == '[object Function]';
+    return toString.call(obj) == '[object Function]';
+};
+L.isString = function (obj) {
+    return toString.call(obj) == '[object String]';
 };
 
 
@@ -19,19 +22,19 @@ L.isFunction = function (obj) {
 
 L.curry = function (fn /* args... */) {
     var args = slice.call(arguments);
-    return L.apply(L.ncurry, L.cons(fn.length, args));
+    return L.apply(L.ncurry, [fn.length].concat(args));
 };
 L.ncurry = function (n, fn /* args... */) {
     var largs = slice.call(arguments, 2);
     if (largs.length >= n) {
-        return L.apply(fn, L.take(n, largs));
+        return L.apply(fn, largs.slice(0, n));
     }
     return function () {
         var args = largs.concat(slice.call(arguments));
         if (args.length < n) {
             return L.apply(L.ncurry, [n, fn].concat(args));
         }
-        return L.apply(fn, L.take(n, args));
+        return L.apply(fn, args.slice(0, n));
     }
 };
 
@@ -151,22 +154,29 @@ L.values = function (obj) {
 
 /***** Lists *****/
 
-L.cons = function (el, arr) {
+L.cons = L.curry(function (el, arr) {
     return [el].concat(arr);
-};
+});
 
-L.concat = function (/* lists ... */) {
-    var args = slice.call(arguments);
-    return Array.prototype.concat.apply(L.head(args), L.tail(args));
-};
+L.concat = L.curry(function (a, b) {
+    if (L.isArray(a)) {
+        return Array.prototype.concat.apply(a, b);
+    }
+    if (L.isString(a)) {
+        return a + b;
+    }
+    throw new Error(
+        'Cannot concat types "' + (typeof a) + '" and "' + (typeof b) + '"'
+    );
+});
 
-L.take = function (i, arr) {
+L.take = L.curry(function (i, arr) {
     return slice.call(arr, 0, i);
-};
+});
 
-L.drop = function (i, arr) {
+L.drop = L.curry(function (i, arr) {
     return slice.call(arr, i);
-};
+});
 
 L.head = function (arr) {
     return arr[0];
@@ -176,7 +186,6 @@ L.tail = function (arr) {
     return arr.slice(1);
 };
 
-//L.init = L.compose(L.take , '-1' , L.length);
 L.init = function (arr) {
     return arr.slice(0, arr.length - 1);
 };
@@ -185,14 +194,18 @@ L.last = function (arr) {
     return arr[arr.length - 1];
 };
 
-L.foldl = function (iterator, memo, arr) {
+L.foldl = L.curry(function (iterator, memo, arr) {
     // TODO: make this cross-browser
     return arr.reduce(iterator, memo);
-};
-L.filter = function (fn, arr) {
+});
+L.filter = L.curry(function (fn, arr) {
     // TODO: make this cross-browser
     return arr.filter(fn);
-};
+});
+L.map = L.curry(function (fn, arr) {
+    // TODO: make this cross-browser
+    return arr.map(fn);
+});
 /*
 L.each = function (fn, arr) {
     // TODO: make this cross-browser

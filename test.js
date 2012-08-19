@@ -128,6 +128,11 @@ exports['take'] = function (test) {
     test.same(a, [1,2,3,4]);
     test.same(L.take(5, a), [1,2,3,4]);
     test.same(a, [1,2,3,4]);
+    // partial application
+    test.same(L.take(1)(a), [1]);
+    test.same(a, [1,2,3,4]);
+    test.same(L.take(2)(a), [1,2]);
+    test.same(a, [1,2,3,4]);
     test.done();
 };
 
@@ -142,6 +147,11 @@ exports['drop'] = function (test) {
     test.same(L.drop(4, a), []);
     test.same(a, [1,2,3,4]);
     test.same(L.drop(5, a), []);
+    test.same(a, [1,2,3,4]);
+    // partial application
+    test.same(L.drop(1)(a), [2,3,4]);
+    test.same(a, [1,2,3,4]);
+    test.same(L.drop(2)(a), [3,4]);
     test.same(a, [1,2,3,4]);
     test.done();
 };
@@ -253,6 +263,9 @@ exports['jsonClone'] = function (test) {
 exports['cons'] = function (test) {
     test.same(L.cons(1, [2,3,4]), [1,2,3,4]);
     test.same(L.cons(1, []), [1]);
+    // partial application
+    test.same(L.cons(1)([2,3,4]), [1,2,3,4]);
+    test.same(L.cons(1)([]), [1]);
     test.done();
 };
 
@@ -296,22 +309,64 @@ exports['ncurry'] = function (test) {
 };
 
 exports['compose'] = function (test) {
-    var fn1 = function (str) {
-        return 'one:' + str;
-    };
-    var fn2 = function (str) {
-        return 'two:' + str;
-    };
-    var fn3 = function (str) {
-        return 'three:' + str;
-    };
+    var fn1 = L.concat('one:');
+    var fn2 = L.concat('two:');
+    var fn3 = L.concat('three:');
     var fn = L.compose(fn3, fn2, fn1);
     test.equal(fn('zero'), 'three:two:one:zero');
     test.done();
 };
 
 exports['concat'] = function (test) {
-    test.same(L.concat([1], [2,3]), [1,2,3]);
-    test.same(L.concat([1,2], [3], [4,5]), [1,2,3,4,5]);
+    var a = [1];
+    var b = [2,3];
+    test.same(L.concat(a, b), [1,2,3]);
+    // test original arrays are unchanged
+    test.same(a, [1]);
+    test.same(b, [2,3]);
+    test.same(L.concat([1,2,3], []), [1,2,3]);
+    // partial application
+    var fn = L.concat([1,2]);
+    test.same(fn([3,4]), [1,2,3,4]);
+    test.same(fn([3,4,5]), [1,2,3,4,5]);
+    test.done();
+};
+
+exports['foldl'] = function (test) {
+    test.same(L.foldl(L.concat, '', ['1','2','3','4']), '1234');
+    var fn = function (x, y) {
+        return x + y;
+    };
+    test.same(L.foldl(fn, 0, [1,2,3,4]), 10);
+    // partial application
+    test.same(L.foldl(fn, 0)([1,2,3,4]), 10);
+    test.same(L.foldl(fn)(0, [1,2,3,4]), 10);
+    test.same(L.foldl(fn)(0)([1,2,3,4]), 10);
+    test.done();
+};
+
+exports['map'] = function (test) {
+    var dbl = function (x) {
+        return x * 2;
+    };
+    var a = [1,2,3,4];
+    test.same(L.map(dbl, a), [2,4,6,8]);
+    // test original array is unchanged
+    test.same(a, [1,2,3,4]);
+    // partial application
+    test.same(L.map(dbl)(a), [2,4,6,8]);
+    test.done();
+};
+
+exports['filter'] = function (test) {
+    var odd = function (x) {
+        return x % 2;
+    };
+    var a = [1,2,3,4];
+    test.same(L.filter(odd, a), [1,3]);
+    // test original array is unchanged
+    test.same(a, [1,2,3,4]);
+    // partial application
+    test.same(L.filter(odd)(a), [1,3]);
     test.done();
 };
