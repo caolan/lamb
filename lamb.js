@@ -85,7 +85,7 @@ L.jsonClone = function (obj) {
     return JSON.parse( JSON.stringify(obj) );
 };
 
-L.set = function (obj, path, val) {
+L.set = L.curry(function (obj, path, val) {
     if (!L.isArray(path)) {
         path = [path];
     }
@@ -103,9 +103,9 @@ L.set = function (obj, path, val) {
         newobj[p] = L.set({}, ps, val);
     }
     return newobj;
-};
+});
 
-L.get = function (obj, path, fullpath) {
+L.get = L.curry(function (obj, path) {
     if (!L.isArray(path)) {
         path = [path];
     }
@@ -116,23 +116,21 @@ L.get = function (obj, path, fullpath) {
         ps = L.tail(path);
 
     if (obj.hasOwnProperty(p)) {
-        return L.get(obj[p], ps, fullpath);
+        return L.get(obj[p], ps);
     }
-    else if (fullpath) {
-        throw new Error('Object ' + obj + ' does not have property: ' + p);
-    }
-    else {
-        return undefined;
-    }
-};
+    return undefined;
+});
 
 L.freeze = Object.freeze;
 
 L.deepFreeze = function (obj) {
     if (typeof obj === 'object') {
         L.freeze(obj);
+
+        //map L.values(obj)
+
         for (var k in obj) {
-            if (obj.hasOwnProperty(k) && typeof obj === "object") {
+            if (obj.hasOwnProperty(k)) {
                 L.deepFreeze(obj[k]);
             }
         }
@@ -144,11 +142,7 @@ L.deepFreeze = function (obj) {
 L.keys = Object.keys;
 
 L.values = function (obj) {
-    var values = [];
-    for (var k in obj) {
-        values.push(obj);
-    }
-    return values;
+    return L.map(L.get(obj), L.keys(obj));
 };
 
 
@@ -225,6 +219,14 @@ L.each = function (fn, arr) {
 };
 */
 
+L.range = function (a, b) {
+    var arr = [];
+    for (var i = a; i < b; i++) {
+        arr.push(i);
+    }
+    return arr;
+};
+
 
 /***** Utilities *****/
 
@@ -274,4 +276,6 @@ L.install = L.foldl(function (src, prop) {
 }, '', L.keys(L));
 
 
-module.exports = L;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = L;
+}

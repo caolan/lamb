@@ -64,9 +64,11 @@ exports['get'] = function (test) {
     test.equal(L.get(a, ['one', 'two']), a.one.two);
     test.equal(L.get(a, ['four', 'five', 'six']), undefined);
     test.equal(L.get(a, ['four', 'five', 'six', 'seven']), undefined);
+    /*
     test.throws(function () {
         L.get(a, ['four', 'five', 'six', 'seven'], true);
     });
+    */
     test.equal(L.get(a, 'six'), 6);
 
     test.equal(L.get([1,2,3,4], 1), 2);
@@ -384,5 +386,17 @@ exports['filter'] = function (test) {
     test.same(a, [1,2,3,4]);
     // partial application
     test.same(L.filter(odd)(a), [1,3]);
+    test.done();
+};
+
+exports['keys'] = function (test) {
+    var a = {a: 1, b: 2, c: {d: 3}};
+    test.same(L.keys(a), ['a','b','c']);
+    test.done();
+};
+
+exports['values'] = function (test) {
+    var a = {a: 1, b: 2, c: {d: 3}};
+    test.same(L.values(a), [1,2,{d:3}]);
     test.done();
 };
