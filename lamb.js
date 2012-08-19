@@ -179,19 +179,31 @@ L.drop = L.curry(function (i, arr) {
 });
 
 L.head = function (arr) {
-    return arr[0];
+    if (arr.length) {
+        return arr[0];
+    }
+    throw new Error('head of empty array');
 };
 
 L.tail = function (arr) {
-    return arr.slice(1);
+    if (arr.length) {
+        return arr.slice(1);
+    }
+    throw new Error('tail of empty array');
 };
 
 L.init = function (arr) {
-    return arr.slice(0, arr.length - 1);
+    if (arr.length) {
+        return arr.slice(0, arr.length - 1);
+    }
+    throw new Error('init of empty array');
 };
 
 L.last = function (arr) {
-    return arr[arr.length - 1];
+    if (arr.length) {
+        return arr[arr.length - 1];
+    }
+    throw new Error('last of empty array');
 };
 
 L.foldl = L.curry(function (iterator, memo, arr) {

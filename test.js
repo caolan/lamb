@@ -83,6 +83,10 @@ exports['head'] = function (test) {
     var b = [4,3,2,1];
     test.equal(L.head(b), 4);
     test.same(b, [4,3,2,1]);
+    // head of an empty list should result in an error
+    test.throws(function () {
+        L.head([]);
+    });
     test.done();
 };
 
@@ -93,6 +97,10 @@ exports['tail'] = function (test) {
     var b = [4,3,2,1];
     test.same(L.tail(b), [3,2,1]);
     test.same(b, [4,3,2,1]);
+    // tail of an empty list should result in an error
+    test.throws(function () {
+        L.tail([]);
+    });
     test.done();
 };
 
@@ -103,6 +111,10 @@ exports['last'] = function (test) {
     var b = [4,3,2,1];
     test.equal(L.last(b), 1);
     test.same(b, [4,3,2,1]);
+    // last of an empty list should result in an error
+    test.throws(function () {
+        L.last([]);
+    });
     test.done();
 };
 
@@ -113,6 +125,10 @@ exports['init'] = function (test) {
     var b = [4,3,2,1];
     test.same(L.init(b), [4,3,2]);
     test.same(b, [4,3,2,1]);
+    // init of an empty list should result in an error
+    test.throws(function () {
+        L.init([]);
+    });
     test.done();
 };
 
