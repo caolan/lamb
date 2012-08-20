@@ -275,47 +275,6 @@ L.pairs = function (obj) {
 
 /***** Utilities *****/
 
-// hopefully people can just use 'const' instead of 'var' eventually.
-// also, this won't work in most older browsers anyway!
-// ... this is probably a dumb idea ;)
-
-L.constants = function (/* var names ..., fn */) {
-    var args = slice.call(arguments),
-        names = L.init(args),
-        fn = L.last(args);
-
-    var constObj = function (names) {
-        var props = {};
-        var constGetterSetter = function (obj, name) {
-            obj.__defineGetter__(name, function () {
-                return props[name];
-            });
-            obj.__defineSetter__(name, function (val) {
-                if (name in props) {
-                    // property has already been assigned to
-                    throw new Error(
-                        'Destructive assignment to ' + name + '\n' +
-                        '  Previous value: ' + props[name] + '\n' +
-                        '  New value: ' + val
-                    );
-                }
-                props[name] = val;
-            });
-            return obj;
-        };
-        var r = L.foldl(constGetterSetter, {}, names);
-        return L.freeze ? L.deepFreeze(r): r;
-    };
-    if (!L.isFunction(fn)) {
-        return constObj(args);
-    }
-    else {
-        return function () {
-            return fn.apply(constObj(names), arguments);
-        };
-    }
-};
-
 L.install = L.foldl(function (src, prop) {
     return src + 'var ' + prop + '=L.' + prop + '; ';
 }, '', L.keys(L));

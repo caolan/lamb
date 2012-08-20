@@ -184,46 +184,6 @@ exports['curry'] = function (test) {
 };
 
 
-exports['constants'] = function (test) {
-    test.doesNotThrow(
-        L.constants('xs', function () {
-            test.equal(this.xs, undefined);
-            this.xs = [1,2,3,4];
-        })
-    );
-    test.throws(
-        L.constants('xs', function () {
-            test.equal(this.xs, undefined);
-            this.xs = [1,2,3,4];
-            this.xs = 'foo';
-        })
-    );
-    test.equal(typeof xs, 'undefined');
-    test.throws(
-        L.constants('xs', function () {
-            "use strict";
-            test.equal(this.xs, undefined);
-            this.foo = 'bar';
-        })
-    );
-    test.doesNotThrow(function () {
-        with (L.constants('xs')) {
-            test.equal(typeof xs, 'undefined');
-            xs = [1,2,3,4];
-        }
-    });
-    test.throws(function () {
-        with (L.constants('xs')) {
-            test.equal(typeof xs, 'undefined');
-            xs = [1,2,3,4];
-            xs = 'foo';
-        }
-    });
-    test.equal(typeof xs, 'undefined');
-    test.done();
-};
-
-
 exports['install'] = function (test) {
     test.expect(8);
     var fn = function () {
