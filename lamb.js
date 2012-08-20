@@ -303,6 +303,10 @@ L.pairs = function (obj) {
 
 /***** Utilities *****/
 
+L.id = function (x) {
+    return x;
+};
+
 L.install = L.foldl(function (src, prop) {
     return src + 'var ' + prop + '=L.' + prop + '; ';
 }, '', L.keys(L));

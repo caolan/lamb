@@ -528,3 +528,11 @@ exports['foldr1'] = function (test) {
     test.equal(L.foldr1(minus)([1,2,3]), 2);
     test.done();
 };
+
+exports['id'] = function (test) {
+    test.equal(L.id(1), 1);
+    test.equal(L.id('abc'), 'abc');
+    test.equal(L.id(L.id(1)), 1);
+    test.equal(L.id(L.id(L.id(1))), 1);
+    test.done();
+};
