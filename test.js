@@ -504,7 +504,7 @@ exports['all'] = function (test) {
     test.done();
 };
 
-exports['all'] = function (test) {
+exports['any'] = function (test) {
     test.equal(L.any(L.not, [false, false, false]), true);
     test.equal(L.any(L.not, [true, false, false]), true);
     test.equal(L.any(L.not, [true, true, true]), false);
