@@ -536,3 +536,9 @@ exports['id'] = function (test) {
     test.equal(L.id(L.id(L.id(1))), 1);
     test.done();
 };
+
+exports['length'] = function (test) {
+    test.equal(L.length([1,2,3,4]), 4);
+    test.equal(L.length([1,2,3]), 3);
+    test.done();
+};

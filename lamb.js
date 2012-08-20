@@ -75,6 +75,10 @@ L.not = function (a) {
 
 /***** Lists *****/
 
+L.length = function (arr) {
+    return arr.length;
+};
+
 L.cons = L.curry(function (el, arr) {
     return [el].concat(arr);
 });
