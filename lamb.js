@@ -58,6 +58,21 @@ L.flip = L.curry(function (fn, x, y) {
 });
 
 
+/***** Boolean tests *****/
+
+L.and = L.curry(function (a, b) {
+    return a && b;
+});
+
+L.or = L.curry(function (a, b) {
+    return a || b;
+});
+
+L.not = function (a) {
+    return !a;
+};
+
+
 /***** Lists *****/
 
 L.cons = L.curry(function (el, arr) {

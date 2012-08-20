@@ -462,3 +462,35 @@ exports['join'] = function (test) {
     test.equal(L.join(':')(['a', 'b', 'c']), 'a:b:c');
     test.done();
 };
+
+exports['and'] = function (test) {
+    test.equal(true && true, L.and(true, true));
+    test.equal(true && false, L.and(true, false));
+    test.equal(false && true, L.and(false, true));
+    test.equal(false && false, L.and(false, false));
+    // partial application
+    test.equal(true && true, L.and(true)(true));
+    test.equal(true && false, L.and(true)(false));
+    test.equal(false && true, L.and(false)(true));
+    test.equal(false && false, L.and(false)(false));
+    test.done();
+};
+
+exports['or'] = function (test) {
+    test.equal(true || true, L.or(true, true));
+    test.equal(true || false, L.or(true, false));
+    test.equal(false || true, L.or(false, true));
+    test.equal(false || false, L.or(false, false));
+    // partial application
+    test.equal(true || true, L.or(true)(true));
+    test.equal(true || false, L.or(true)(false));
+    test.equal(false || true, L.or(false)(true));
+    test.equal(false || false, L.or(false)(false));
+    test.done();
+};
+
+exports['not'] = function (test) {
+    test.equal(!true, L.not(true));
+    test.equal(!false, L.not(false));
+    test.done();
+};
