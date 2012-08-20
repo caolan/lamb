@@ -365,6 +365,16 @@ exports['foldl'] = function (test) {
     test.done();
 };
 
+exports['foldl1'] = function (test) {
+    var fn = function (x, y) {
+        return x + y;
+    };
+    test.same(L.foldl1(fn, [1,2,3,4]), 10);
+    // partial application
+    test.same(L.foldl1(fn)([1,2,3,4]), 10);
+    test.done();
+};
+
 exports['map'] = function (test) {
     var dbl = function (x) {
         return x * 2;
@@ -375,6 +385,14 @@ exports['map'] = function (test) {
     test.same(a, [1,2,3,4]);
     // partial application
     test.same(L.map(dbl)(a), [2,4,6,8]);
+    test.done();
+};
+
+exports['concatMap'] = function (test) {
+    var fn = function (c) {
+        return c.toUpperCase();
+    };
+    test.equal(L.concatMap(fn, ['a','b','c']), 'ABC');
     test.done();
 };
 
@@ -434,5 +452,13 @@ exports['pairs'] = function (test) {
         ['three', {four: 4, five: {six: 6}}],
         ['seven', {eight: 8}]
     ]);
+    test.done();
+};
+
+exports['join'] = function (test) {
+    test.equal(L.join(':', ['a', 'b', 'c']), 'a:b:c');
+    test.equal(L.join(' and ', ['abc', '123']), 'abc and 123');
+    // partial application
+    test.equal(L.join(':')(['a', 'b', 'c']), 'a:b:c');
     test.done();
 };

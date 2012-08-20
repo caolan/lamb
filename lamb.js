@@ -116,6 +116,9 @@ L.foldl = L.curry(function (iterator, memo, arr) {
     // TODO: make this cross-browser
     return arr.reduce(iterator, memo);
 });
+L.foldl1 = L.curry(function (iterator, arr) {
+    return L.foldl(iterator, L.head(arr), L.tail(arr));
+});
 L.filter = L.curry(function (fn, arr) {
     // TODO: make this cross-browser
     return arr.filter(fn);
@@ -124,6 +127,10 @@ L.map = L.curry(function (fn, arr) {
     // TODO: make this cross-browser
     return arr.map(fn);
 });
+L.concatMap = L.curry(function (f, arr) {
+    return L.foldl1(L.concat, L.map(f, arr));
+});
+
 /*
 L.each = function (fn, arr) {
     // TODO: make this cross-browser
@@ -138,6 +145,10 @@ L.range = function (a, b) {
     }
     return arr;
 };
+
+L.join = L.curry(function (delim, arr) {
+    return Array.prototype.join.call(arr, delim);
+});
 
 
 /***** Objects *****/
