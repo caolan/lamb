@@ -149,6 +149,9 @@ L.foldr = L.curry(function (iterator, memo, arr) {
     }
     return r;
 });
+L.foldr1 = L.curry(function (iterator, arr) {
+    return L.foldr(iterator, L.last(arr), L.init(arr));
+});
 L.filter = L.curry(function (fn, arr) {
     // TODO: make this cross-browser
     return arr.filter(fn);

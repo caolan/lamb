@@ -518,3 +518,13 @@ exports['foldr'] = function (test) {
     test.equal(L.foldr(minus)(1)([1,2,3]), 1);
     test.done();
 };
+
+exports['foldr1'] = function (test) {
+    var minus = function (a, b) {
+        return a - b;
+    };
+    test.equal(L.foldr1(minus, [1,2,3]), 2);
+    // partial application
+    test.equal(L.foldr1(minus)([1,2,3]), 2);
+    test.done();
+};
