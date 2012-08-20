@@ -488,3 +488,14 @@ exports['any'] = function (test) {
     test.equal(L.any(L.not)([true, true, true]), false);
     test.done();
 };
+
+exports['elem'] = function (test) {
+    test.equal(L.elem(3, [1,2,3,4]), true);
+    test.equal(L.elem(6, [1,2,3,4]), false);
+    test.equal(L.elem(6, []), false);
+    // partial application
+    test.equal(L.elem(3)([1,2,3,4]), true);
+    test.equal(L.elem(6)([1,2,3,4]), false);
+    test.equal(L.elem(6)([]), false);
+    test.done();
+};

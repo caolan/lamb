@@ -173,6 +173,15 @@ L.join = L.curry(function (delim, arr) {
     return Array.prototype.join.call(arr, delim);
 });
 
+L.elem = L.curry(function (x, xs) {
+    for (var i = 0, len = xs.length; i < len; i++) {
+        if (xs[i] === x) {
+            return true;
+        }
+    }
+    return false;
+});
+
 
 /***** Special folds *****/
 
@@ -180,6 +189,7 @@ L.all = L.curry(function (p, xs) {
     return L.foldl(L.and, true, L.map(p, xs));
 });
 
+// TODO: return early when true result found
 L.any = L.curry(function (p, xs) {
     return L.foldl(L.or, false, L.map(p, xs));
 });
