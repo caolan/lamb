@@ -327,15 +327,19 @@ exports['concat'] = function (test) {
 };
 
 exports['foldl'] = function (test) {
-    test.same(L.foldl(L.concat, '', ['1','2','3','4']), '1234');
+    test.equal(L.foldl(L.concat, '', ['1','2','3','4']), '1234');
     var fn = function (x, y) {
         return x + y;
     };
-    test.same(L.foldl(fn, 0, [1,2,3,4]), 10);
+    test.equal(L.foldl(fn, 0, [1,2,3,4]), 10);
     // partial application
-    test.same(L.foldl(fn, 0)([1,2,3,4]), 10);
-    test.same(L.foldl(fn)(0, [1,2,3,4]), 10);
-    test.same(L.foldl(fn)(0)([1,2,3,4]), 10);
+    test.equal(L.foldl(fn, 0)([1,2,3,4]), 10);
+    test.equal(L.foldl(fn)(0, [1,2,3,4]), 10);
+    test.equal(L.foldl(fn)(0)([1,2,3,4]), 10);
+    var minus = function (a, b) {
+        return a - b;
+    };
+    test.equal(L.foldl(minus, 1, [1,2,3]), -5);
     test.done();
 };
 
@@ -343,9 +347,13 @@ exports['foldl1'] = function (test) {
     var fn = function (x, y) {
         return x + y;
     };
-    test.same(L.foldl1(fn, [1,2,3,4]), 10);
+    test.equal(L.foldl1(fn, [1,2,3,4]), 10);
     // partial application
-    test.same(L.foldl1(fn)([1,2,3,4]), 10);
+    test.equal(L.foldl1(fn)([1,2,3,4]), 10);
+    var minus = function (a, b) {
+        return a - b;
+    };
+    test.equal(L.foldl1(minus, [1,2,3]), -4);
     test.done();
 };
 
@@ -497,5 +505,16 @@ exports['elem'] = function (test) {
     test.equal(L.elem(3)([1,2,3,4]), true);
     test.equal(L.elem(6)([1,2,3,4]), false);
     test.equal(L.elem(6)([]), false);
+    test.done();
+};
+
+exports['foldr'] = function (test) {
+    var minus = function (a, b) {
+        return a - b;
+    };
+    test.equal(L.foldr(minus, 1, [1,2,3]), 1);
+    // partial application
+    test.equal(L.foldr(minus, 1)([1,2,3]), 1);
+    test.equal(L.foldr(minus)(1)([1,2,3]), 1);
     test.done();
 };

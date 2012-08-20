@@ -142,6 +142,13 @@ L.foldl = L.curry(function (iterator, memo, arr) {
 L.foldl1 = L.curry(function (iterator, arr) {
     return L.foldl(iterator, L.head(arr), L.tail(arr));
 });
+L.foldr = L.curry(function (iterator, memo, arr) {
+    var r = memo;
+    for (var i = arr.length - 1; i >= 0; --i) {
+        r = iterator(arr[i], r);
+    }
+    return r;
+});
 L.filter = L.curry(function (fn, arr) {
     // TODO: make this cross-browser
     return arr.filter(fn);
