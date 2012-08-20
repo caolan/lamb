@@ -174,6 +174,20 @@ exports['drop'] = function (test) {
     test.done();
 };
 
+exports['dropWhile'] = function (test) {
+    var lt3 = function (x) {
+        return x < 3;
+    };
+    test.same(L.dropWhile(lt3, [1,2,3,4]), [3,4]);
+    test.same(L.dropWhile(lt3, [1,2,1,2]), []);
+    test.same(L.dropWhile(lt3, [3,3,3,3]), [3,3,3,3]);
+    // partial application
+    test.same(L.dropWhile(lt3)([1,2,3,4]), [3,4]);
+    test.same(L.dropWhile(lt3)([1,2,1,2]), []);
+    test.same(L.dropWhile(lt3)([3,3,3,3]), [3,3,3,3]);
+    test.done();
+};
+
 exports['curry'] = function (test) {
     var fn = function (a,b,c,d) {
         return [d,c,b,a];

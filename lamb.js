@@ -91,12 +91,20 @@ L.concat = L.curry(function (a, b) {
     );
 });
 
-L.take = L.curry(function (i, arr) {
-    return slice.call(arr, 0, i);
+L.take = L.curry(function (i, xs) {
+    return slice.call(xs, 0, i);
 });
 
-L.drop = L.curry(function (i, arr) {
-    return slice.call(arr, i);
+L.drop = L.curry(function (i, xs) {
+    return slice.call(xs, i);
+});
+
+L.dropWhile = L.curry(function (p, xs) {
+    var len = xs.length, i = 0;
+    while (i < len && p(xs[i])) {
+        i++;
+    }
+    return L.drop(i, xs);
 });
 
 L.head = function (arr) {
