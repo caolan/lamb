@@ -166,6 +166,17 @@ L.join = L.curry(function (delim, arr) {
 });
 
 
+/***** Special folds *****/
+
+L.all = L.curry(function (p, xs) {
+    return L.foldl(L.and, true, L.map(p, xs));
+});
+
+L.any = L.curry(function (p, xs) {
+    return L.foldl(L.or, false, L.map(p, xs));
+});
+
+
 /***** Objects *****/
 
 L.shallowClone = function (obj) {

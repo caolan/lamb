@@ -494,3 +494,23 @@ exports['not'] = function (test) {
     test.equal(!false, L.not(false));
     test.done();
 };
+
+exports['all'] = function (test) {
+    test.equal(L.all(L.not, [false, false, false]), true);
+    test.equal(L.all(L.not, [true, false, false]), false);
+    // partial applicatoin
+    test.equal(L.all(L.not)([false, false, false]), true);
+    test.equal(L.all(L.not)([true, false, false]), false);
+    test.done();
+};
+
+exports['all'] = function (test) {
+    test.equal(L.any(L.not, [false, false, false]), true);
+    test.equal(L.any(L.not, [true, false, false]), true);
+    test.equal(L.any(L.not, [true, true, true]), false);
+    // partial applicatoin
+    test.equal(L.any(L.not)([false, false, false]), true);
+    test.equal(L.any(L.not)([true, false, false]), true);
+    test.equal(L.any(L.not)([true, true, true]), false);
+    test.done();
+};
