@@ -53,3 +53,38 @@ exports['stringify'] = function (test) {
     );
     test.done();
 };
+
+exports['parse'] = function (test) {
+    test.same(
+        html.parse('<h1>Hello</h1>'),
+        [ ['h1', {}, ['Hello']] ]
+    );
+    test.same(
+        html.parse(
+            '<li class="product">' +
+                '<span class="name">Foo</span>' +
+                '<span class="price">$1.00</span>' +
+            '</li>'
+        ),
+        [
+            ['li', {'class': 'product'}, [
+                ['span', {'class': 'name'}, ['Foo']],
+                ['span', {'class': 'price'}, ['$1.00']]
+            ]]
+        ]
+    );
+    test.same(
+        html.parse(
+            '<div id="foo" rel="bar">Some <b>important</b> text</div><br>'
+        ),
+        [
+            ['div', {'id': 'foo', 'rel': 'bar'}, [
+                'Some ',
+                ['b', {}, ['important']],
+                ' text'
+            ]],
+            ['br', {}, []]
+        ]
+    );
+    test.done();
+};

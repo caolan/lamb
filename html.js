@@ -1,4 +1,5 @@
-var L = require('./lamb');
+var L = require('./lamb'),
+    HTMLParser = require('./htmlparser');
 
 eval(L.install);
 
@@ -39,6 +40,39 @@ html.escapeHtml = html.h = function (s) {
     s = s.replace(/'/g, '&#39;');
     return s;
 };
+
+html.parse = function (str) {
+    var results = [];
+    var stack = [results];
+
+    HTMLParser(str, {
+        start: function( tag, attrs, unary ) {
+            var a = {};
+            for (var i = 0, len = attrs.length; i < len; i++) {
+                var attr = attrs[i];
+                a[attr.name] = attr.value;
+            }
+            var t = [tag, a, []];
+            var curr = stack[0];
+            curr.push(t);
+            if (!unary) {
+                stack.unshift(t[2]);
+            }
+        },
+        end: function( tag ) {
+            stack.shift();
+        },
+        chars: function( text ) {
+            var curr = stack[0];
+            curr.push(text);
+        },
+        comment: function( text ) {
+            //ignore comments
+        }
+    });
+    return results;
+};
+
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = html;
