@@ -413,3 +413,26 @@ exports['flip'] = function (test) {
     test.equal(L.flip(subtract, 4, 2), -2);
     test.done();
 };
+
+exports['pairs'] = function (test) {
+    var a = {
+      one: 1,
+      two: 2,
+      three: {
+        four: 4,
+        five: {
+          six: 6
+        }
+      },
+      seven: {
+        eight: 8
+      }
+    };
+    test.same(L.pairs(a), [
+        ['one', 1],
+        ['two', 2],
+        ['three', {four: 4, five: {six: 6}}],
+        ['seven', {eight: 8}]
+    ]);
+    test.done();
+};
