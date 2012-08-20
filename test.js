@@ -293,6 +293,8 @@ exports['apply'] = function (test) {
     };
     test.equal(L.apply(fn, [1,2,3,4]), 10);
     test.equal(L.apply(fn, [1,1,1,1]), 4);
+    // partial application
+    test.equal(L.apply(fn)([1,2,3,4]), 10);
     test.done();
 };
 
@@ -398,5 +400,16 @@ exports['keys'] = function (test) {
 exports['values'] = function (test) {
     var a = {a: 1, b: 2, c: {d: 3}};
     test.same(L.values(a), [1,2,{d:3}]);
+    test.done();
+};
+
+exports['flip'] = function (test) {
+    var subtract = function (a, b) {
+        return a - b;
+    };
+    test.equal(subtract(4,2), 2);
+    test.equal(L.flip(subtract)(4,2), -2);
+    test.equal(L.flip(subtract, 4)(2), -2);
+    test.equal(L.flip(subtract, 4, 2), -2);
     test.done();
 };

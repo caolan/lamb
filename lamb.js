@@ -22,7 +22,7 @@ L.isString = function (obj) {
 
 L.curry = function (fn /* args... */) {
     var args = slice.call(arguments);
-    return L.apply(L.ncurry, [fn.length].concat(args));
+    return L.ncurry.apply(this, [fn.length].concat(args));
 };
 L.ncurry = function (n, fn /* args... */) {
     var largs = slice.call(arguments, 2);
@@ -32,9 +32,9 @@ L.ncurry = function (n, fn /* args... */) {
     return function () {
         var args = largs.concat(slice.call(arguments));
         if (args.length < n) {
-            return L.apply(L.ncurry, [n, fn].concat(args));
+            return L.ncurry.apply(this, [n, fn].concat(args));
         }
-        return L.apply(fn, args.slice(0, n));
+        return fn.apply(this, args.slice(0, n));
     }
 };
 
@@ -43,15 +43,19 @@ L.compose = function (/* f1, f2, ...*/) {
     return function () {
         var args = arguments;
         for (var i = fns.length-1; i >= 0; --i) {
-            args = [L.apply(fns[i], args)];
+            args = [fns[i].apply(this, args)];
         }
         return args[0];
     };
 };
 
-L.apply = function (fn, args) {
+L.apply = L.curry(function (fn, args) {
     return fn.apply(this, args);
-};
+});
+
+L.flip = L.curry(function (fn, x, y) {
+    return fn(y, x);
+});
 
 
 /***** Objects *****/
