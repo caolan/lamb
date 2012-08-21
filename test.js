@@ -618,3 +618,13 @@ exports['reverse'] = function (test) {
     test.same(a, [1,2]);
     test.done();
 };
+
+exports['sort'] = function (test) {
+    var a = [2,4,3,1];
+    test.same(L.sort(a), [1,2,3,4]);
+    test.same(a, [2,4,3,1]);
+    var b = [1,2,3,4];
+    test.same(L.sort([1,2,3,4]), [1,2,3,4]);
+    test.same(b, [1,2,3,4]);
+    test.done();
+};
