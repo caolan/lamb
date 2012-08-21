@@ -606,3 +606,15 @@ exports['replicate'] = function (test) {
     test.same(L.replicate(0)(2), []);
     test.done();
 };
+
+exports['reverse'] = function (test) {
+    test.same(L.reverse([1,2,3,4]), [4,3,2,1]);
+    test.same(L.reverse([4,3,2,1]), [1,2,3,4]);
+    test.same(L.reverse([1]), [1]);
+    test.same(L.reverse([]), []);
+    // make sure original array is unchanged
+    var a = [1,2];
+    test.same(L.reverse(a), [2,1]);
+    test.same(a, [1,2]);
+    test.done();
+};

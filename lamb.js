@@ -3,7 +3,7 @@
  * even,
  * lines
  * mod, odd, or, product,
- * replicate, reverse, round, show, sin, snd, sort, span, splitAt,
+ * round, show, sin, snd, sort, span, splitAt,
  * sqrt, subtract, succ, sum, tail, take, takeWhile, tan, toLower, toUpper,
  * truncate, undefined, unlines, until, unwords, words, zip, zipWith, (!!),
  * (.), (**), (^), (^^), (%), (*), (/), (+), (-), (:), (++), (/=), (==), (<),
@@ -237,6 +237,8 @@ L.replicate = L.curry(function (n, x) {
     }
     return r;
 });
+
+L.reverse = L.foldl(L.flip(L.cons), []);
 
 
 /***** Special folds *****/
