@@ -3,8 +3,8 @@
  * even,
  * lines
  * mod, odd, or, product,
- * sqrt, subtract, succ, sum, tail, take, takeWhile, tan, toLower, toUpper,
- * truncate, undefined, unlines, until, unwords, words, zip, zipWith, (!!),
+ * subtract, sum, takeWhile, toLower, toUpper,
+ * unlines, unwords, words, zip, zipWith, (!!),
  * (.), (**), (^), (^^), (%), (*), (/), (+), (-), (:), (++), (/=), (==), (<),
  * (<=), (>), (>=), (&&), (||)
  */
@@ -374,6 +374,14 @@ L.pairs = function (obj) {
 L.id = function (x) {
     return x;
 };
+
+L.until = L.curry(function (p, f, x) {
+    var r = x;
+    while (!p(r)) {
+        r = f(r);
+    }
+    return r;
+});
 
 L.install = L.foldl(function (src, prop) {
     return src + 'var ' + prop + '=L.' + prop + '; ';

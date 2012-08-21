@@ -651,3 +651,18 @@ exports['splitAt'] = function (test) {
     test.same(L.splitAt(3)([1,2,3,4,5]), [[1,2,3], [4,5]]);
     test.done();
 };
+
+exports['until'] = function (test) {
+    var p = function (x) {
+        return x > 1000;
+    };
+    var f = function (x) {
+        return x * 2;
+    };
+    test.equal(L.until(p, f, 1), 1024);
+    // partial application
+    test.equal(L.until(p)(f, 1), 1024);
+    test.equal(L.until(p, f)(1), 1024);
+    test.equal(L.until(p)(f)(1), 1024);
+    test.done();
+};
