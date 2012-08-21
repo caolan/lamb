@@ -3,7 +3,7 @@
  * even,
  * lines
  * mod, odd, or, product,
- * span, splitAt,
+ * splitAt,
  * sqrt, subtract, succ, sum, tail, take, takeWhile, tan, toLower, toUpper,
  * truncate, undefined, unlines, until, unwords, words, zip, zipWith, (!!),
  * (.), (**), (^), (^^), (%), (*), (/), (+), (-), (:), (++), (/=), (==), (<),
@@ -243,6 +243,16 @@ L.reverse = L.foldl(L.flip(L.cons), []);
 L.sort = function (xs) {
     return slice.call(xs).sort();
 };
+
+L.span = L.curry(function (p, xs) {
+    var left = [];
+    var len = xs.length, i = 0;
+    while (i < len && p(xs[i])) {
+        left.push(xs[i]);
+        i++;
+    }
+    return [left, slice.call(xs, i)];
+});
 
 
 /***** Special folds *****/

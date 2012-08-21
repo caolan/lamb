@@ -628,3 +628,19 @@ exports['sort'] = function (test) {
     test.same(b, [1,2,3,4]);
     test.done();
 };
+
+exports['span'] = function (test) {
+    var lt3 = function (x) {
+        return x < 3;
+    };
+    test.same(L.span(lt3, [1,2,3,4]), [[1,2], [3,4]]);
+    test.same(L.span(lt3, [1,2]), [[1,2], []]);
+    test.same(L.span(lt3, [3,4]), [[], [3,4]]);
+    test.same(L.span(lt3, []), [[], []]);
+    // partial application
+    test.same(L.span(lt3)([1,2,3,4]), [[1,2], [3,4]]);
+    test.same(L.span(lt3)([1,2]), [[1,2], []]);
+    test.same(L.span(lt3)([3,4]), [[], [3,4]]);
+    test.same(L.span(lt3)([]), [[], []]);
+    test.done();
+};
