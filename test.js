@@ -679,3 +679,11 @@ exports['zipWith'] = function (test) {
     test.same(L.zipWith(add)([1,2,3])([6,7,8]), [7,9,11]);
     test.done();
 };
+
+exports['zip'] = function (test) {
+    test.same(L.zip([1,2,3], [4,5,6]), [[1,4],[2,5],[3,6]]);
+    test.same(L.zip([1,2], [4,5,6]), [[1,4],[2,5]]);
+    // partial application
+    test.same(L.zip([1,2])([4,5]), [[1,4],[2,5]]);
+    test.done();
+};
