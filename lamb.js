@@ -2,8 +2,8 @@
  * and, break, concat,
  * even,
  * lines
- * mod, odd, or, ord, pi, pred, putStr, product, quot, rem,
- * repeat, replicate, reverse, round, show, sin, snd, sort, span, splitAt,
+ * mod, odd, or, product,
+ * replicate, reverse, round, show, sin, snd, sort, span, splitAt,
  * sqrt, subtract, succ, sum, tail, take, takeWhile, tan, toLower, toUpper,
  * truncate, undefined, unlines, until, unwords, words, zip, zipWith, (!!),
  * (.), (**), (^), (^^), (%), (*), (/), (+), (-), (:), (++), (/=), (==), (<),
@@ -228,6 +228,14 @@ L.elem = L.curry(function (x, xs) {
 
 L.notElem = L.curry(function (x, xs) {
     return L.not(L.elem(x, xs));
+});
+
+L.replicate = L.curry(function (n, x) {
+    var r = [];
+    for (var i = 0; i < n; i++) {
+        r[i] = x;
+    }
+    return r;
 });
 
 

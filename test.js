@@ -593,3 +593,16 @@ exports['empty'] = function (test) {
     test.equal(L.empty([]), true);
     test.done();
 };
+
+exports['replicate'] = function (test) {
+    test.same(L.replicate(3, "ho"), ["ho","ho","ho"]);
+    test.same(L.replicate(5, 1), [1,1,1,1,1]);
+    test.same(L.replicate(1, 2), [2]);
+    test.same(L.replicate(0, 2), []);
+    // partial application
+    test.same(L.replicate(3)("ho"), ["ho","ho","ho"]);
+    test.same(L.replicate(5)(1), [1,1,1,1,1]);
+    test.same(L.replicate(1)(2), [2]);
+    test.same(L.replicate(0)(2), []);
+    test.done();
+};
