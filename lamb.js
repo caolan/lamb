@@ -1,7 +1,7 @@
 /**
  * and, break, concat,
  * even,
- * lines, max, maximum, min, minimum,
+ * lines
  * mod, not, notElem, null, odd, or, ord, pi, pred, putStr, product, quot, rem,
  * repeat, replicate, reverse, round, show, sin, snd, sort, span, splitAt,
  * sqrt, subtract, succ, sum, tail, take, takeWhile, tan, toLower, toUpper,
@@ -92,6 +92,10 @@ L.not = function (a) {
 
 L.max = L.curry(function (x, y) {
     return x >= y ? x: y;
+});
+
+L.min = L.curry(function (x, y) {
+    return x <= y ? x: y;
 });
 
 
@@ -231,6 +235,7 @@ L.any = L.curry(function (p, xs) {
 });
 
 L.maximum = L.foldl1(L.max);
+L.minimum = L.foldl1(L.min);
 
 
 /***** Objects *****/

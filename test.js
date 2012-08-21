@@ -547,11 +547,32 @@ exports['max'] = function (test) {
     test.equal(L.max(1,2), 2);
     test.equal(L.max(2,2), 2);
     test.equal(L.max(2,1), 2);
+    // partial application
+    test.equal(L.max(1)(2), 2);
+    test.equal(L.max(2)(2), 2);
+    test.equal(L.max(2)(1), 2);
     test.done();
 };
 
 exports['maximum'] = function (test) {
     test.equal(L.maximum([1,2,3,4]), 4);
     test.equal(L.maximum([1,4,2,3]), 4);
+    test.done();
+};
+
+exports['min'] = function (test) {
+    test.equal(L.min(1,2), 1);
+    test.equal(L.min(2,2), 2);
+    test.equal(L.min(2,1), 1);
+    // partial application
+    test.equal(L.min(1)(2), 1);
+    test.equal(L.min(2)(2), 2);
+    test.equal(L.min(2)(1), 1);
+    test.done();
+};
+
+exports['minimum'] = function (test) {
+    test.equal(L.minimum([1,2,3,4]), 1);
+    test.equal(L.minimum([3,2,4,1]), 1);
     test.done();
 };
