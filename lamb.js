@@ -2,7 +2,7 @@
  * and, break, concat,
  * even,
  * lines
- * mod, null, odd, or, ord, pi, pred, putStr, product, quot, rem,
+ * mod, odd, or, ord, pi, pred, putStr, product, quot, rem,
  * repeat, replicate, reverse, round, show, sin, snd, sort, span, splitAt,
  * sqrt, subtract, succ, sum, tail, take, takeWhile, tan, toLower, toUpper,
  * truncate, undefined, unlines, until, unwords, words, zip, zipWith, (!!),
@@ -100,6 +100,10 @@ L.min = L.curry(function (x, y) {
 
 
 /***** Lists *****/
+
+L.empty = function (arr) {
+    return arr.length === 0;
+};
 
 L.length = function (arr) {
     return arr.length;

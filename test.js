@@ -587,3 +587,9 @@ exports['notElem'] = function (test) {
     test.equal(L.notElem(6)([]), true);
     test.done();
 };
+
+exports['empty'] = function (test) {
+    test.equal(L.empty([1,2,3]), false);
+    test.equal(L.empty([]), true);
+    test.done();
+};
