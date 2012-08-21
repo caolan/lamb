@@ -542,3 +542,16 @@ exports['length'] = function (test) {
     test.equal(L.length([1,2,3]), 3);
     test.done();
 };
+
+exports['max'] = function (test) {
+    test.equal(L.max(1,2), 2);
+    test.equal(L.max(2,2), 2);
+    test.equal(L.max(2,1), 2);
+    test.done();
+};
+
+exports['maximum'] = function (test) {
+    test.equal(L.maximum([1,2,3,4]), 4);
+    test.equal(L.maximum([1,4,2,3]), 4);
+    test.done();
+};

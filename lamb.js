@@ -1,3 +1,18 @@
+/**
+ * and, break, concat,
+ * even,
+ * lines, max, maximum, min, minimum,
+ * mod, not, notElem, null, odd, or, ord, pi, pred, putStr, product, quot, rem,
+ * repeat, replicate, reverse, round, show, sin, snd, sort, span, splitAt,
+ * sqrt, subtract, succ, sum, tail, take, takeWhile, tan, toLower, toUpper,
+ * truncate, undefined, unlines, until, unwords, words, zip, zipWith, (!!),
+ * (.), (**), (^), (^^), (%), (*), (/), (+), (-), (:), (++), (/=), (==), (<),
+ * (<=), (>), (>=), (&&), (||)
+ */
+
+
+
+
 var L = {};
 var slice = Array.prototype.slice;
 
@@ -71,6 +86,13 @@ L.or = L.curry(function (a, b) {
 L.not = function (a) {
     return !a;
 };
+
+
+/***** Numbers *****/
+
+L.max = L.curry(function (x, y) {
+    return x >= y ? x: y;
+});
 
 
 /***** Lists *****/
@@ -207,6 +229,8 @@ L.all = L.curry(function (p, xs) {
 L.any = L.curry(function (p, xs) {
     return L.foldl(L.or, false, L.map(p, xs));
 });
+
+L.maximum = L.foldl1(L.max);
 
 
 /***** Objects *****/
