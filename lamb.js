@@ -4,7 +4,7 @@
  * lines
  * mod, odd, or, product,
  * subtract, sum, takeWhile, toLower, toUpper,
- * unlines, unwords, words, zip, zipWith, (!!),
+ * unlines, unwords, words, zip, (!!),
  * (.), (**), (^), (^^), (%), (*), (/), (+), (-), (:), (++), (/=), (==), (<),
  * (<=), (>), (>=), (&&), (||)
  */
@@ -255,6 +255,15 @@ L.span = L.curry(function (p, xs) {
 
 L.splitAt = L.curry(function (n, xs) {
     return [L.take(n, xs), L.drop(n, xs)];
+});
+
+L.zipWith = L.curry(function (f, xs, ys) {
+    var r = [];
+    var len = L.min(L.length(xs), L.length(ys));
+    for (var i = 0; i < len; i++) {
+        r[i] = f(xs[i], ys[i]);
+    }
+    return r;
 });
 
 

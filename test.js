@@ -666,3 +666,16 @@ exports['until'] = function (test) {
     test.equal(L.until(p)(f)(1), 1024);
     test.done();
 };
+
+exports['zipWith'] = function (test) {
+    var add = function (a, b) {
+        return a + b;
+    };
+    test.same(L.zipWith(add, [1,2,3,4,5], [6,7,8,9,10]), [7,9,11,13,15]);
+    test.same(L.zipWith(add, [1,2,3], [6,7,8,9,10]), [7,9,11]);
+    // partial application
+    test.same(L.zipWith(add, [1,2,3])([6,7,8]), [7,9,11]);
+    test.same(L.zipWith(add)([1,2,3], [6,7,8]), [7,9,11]);
+    test.same(L.zipWith(add)([1,2,3])([6,7,8]), [7,9,11]);
+    test.done();
+};
