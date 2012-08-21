@@ -576,3 +576,14 @@ exports['minimum'] = function (test) {
     test.equal(L.minimum([3,2,4,1]), 1);
     test.done();
 };
+
+exports['notElem'] = function (test) {
+    test.equal(L.notElem(3, [1,2,3,4]), false);
+    test.equal(L.notElem(6, [1,2,3,4]), true);
+    test.equal(L.notElem(6, []), true);
+    // partial application
+    test.equal(L.notElem(3)([1,2,3,4]), false);
+    test.equal(L.notElem(6)([1,2,3,4]), true);
+    test.equal(L.notElem(6)([]), true);
+    test.done();
+};
