@@ -3,7 +3,6 @@
  * even,
  * lines
  * mod, odd, or, product,
- * splitAt,
  * sqrt, subtract, succ, sum, tail, take, takeWhile, tan, toLower, toUpper,
  * truncate, undefined, unlines, until, unwords, words, zip, zipWith, (!!),
  * (.), (**), (^), (^^), (%), (*), (/), (+), (-), (:), (++), (/=), (==), (<),
@@ -252,6 +251,10 @@ L.span = L.curry(function (p, xs) {
         i++;
     }
     return [left, slice.call(xs, i)];
+});
+
+L.splitAt = L.curry(function (n, xs) {
+    return [L.take(n, xs), L.drop(n, xs)];
 });
 
 

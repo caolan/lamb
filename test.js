@@ -644,3 +644,10 @@ exports['span'] = function (test) {
     test.same(L.span(lt3)([]), [[], []]);
     test.done();
 };
+
+exports['splitAt'] = function (test) {
+    test.same(L.splitAt(3, [1,2,3,4,5]), [[1,2,3], [4,5]]);
+    // partial application
+    test.same(L.splitAt(3)([1,2,3,4,5]), [[1,2,3], [4,5]]);
+    test.done();
+};
